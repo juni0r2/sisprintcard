@@ -1,21 +1,12 @@
 package br.com.sisprintcard;
 
-import br.com.sisprintcard.exception.UsuarioNaoEncontradoException;
-import br.com.sisprintcard.model.EnEstado;
-import br.com.sisprintcard.model.EnImpressora;
-import br.com.sisprintcard.model.EnSamBeneficiarioCartaoIdentif;
-import br.com.sisprintcard.repository.EstadoRepository;
-import br.com.sisprintcard.repository.ImpressoraRepository;
-import br.com.sisprintcard.repository.SamBeneficiarioCartaoIdentifRepository;
-import br.com.sisprintcard.service.ImprimeCardService;
-import common_java.XPS_Java_SDK;
-import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
-import java.io.File;
-import java.util.Optional;
+import br.com.sisprintcard.common.XPS_Java_SDK;
+import br.com.sisprintcard.exception.UsuarioNaoEncontradoException;
+import br.com.sisprintcard.service.ImprimeCardService;
 
 @SpringBootApplication
 public class SisPrintCardApplication {
@@ -24,14 +15,14 @@ public class SisPrintCardApplication {
 
     private static ConfigurableApplicationContext run;
 
-    static {
-        try {
-            String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
-            System.setProperty("java.library.path", myLibraryPath);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+//    static {
+//        try {
+//            String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
+//            System.setProperty("java.library.path", myLibraryPath);
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//    }
 
     public static void main(String[] args) {
 
