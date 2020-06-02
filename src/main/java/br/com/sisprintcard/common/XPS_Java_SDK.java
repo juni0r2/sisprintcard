@@ -148,14 +148,8 @@ public class XPS_Java_SDK {
 
     private static void extractDll(String path, String name) {
         try {
-        	String p = "";
-        	if ("amd64".equals(path)) {
-        		Path basePath = FileSystems.getDefault().getPath(name);
-        		p = "src/main/java/"+path;
-        	}
-
         	
-            String resourcePath = p + "/" + name;
+            String resourcePath = path + "/" + name;
             URL url = ClassLoader.getSystemResource(resourcePath);
             if (url == null) {
                 System.out.println("unable to locate interop DLL.");

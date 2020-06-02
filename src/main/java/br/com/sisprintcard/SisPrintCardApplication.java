@@ -15,14 +15,14 @@ public class SisPrintCardApplication {
 
     private static ConfigurableApplicationContext run;
 
-//    static {
-//        try {
-//            String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
-//            System.setProperty("java.library.path", myLibraryPath);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//    }
+    static {
+        try {
+            String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
+            System.setProperty("java.library.path", myLibraryPath);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
 
     public static void main(String[] args) {
 
@@ -42,6 +42,7 @@ public class SisPrintCardApplication {
 //        } finally {
 //            run.close();
 //        }
+        System.exit(0);
     }
 
     private static Long[] recebeAtributos(String[] args) {
