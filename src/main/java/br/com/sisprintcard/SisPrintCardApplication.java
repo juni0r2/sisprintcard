@@ -8,11 +8,13 @@ import br.com.sisprintcard.repository.EstadoRepository;
 import br.com.sisprintcard.repository.ImpressoraRepository;
 import br.com.sisprintcard.repository.SamBeneficiarioCartaoIdentifRepository;
 import br.com.sisprintcard.service.ImprimeCardService;
+import common_java.XPS_Java_SDK;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.util.StringUtils;
 
+import java.io.File;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -22,20 +24,33 @@ public class SisPrintCardApplication {
 
     private static ConfigurableApplicationContext run;
 
-    public static void main(String[] args) {
-        run = SpringApplication.run(SisPrintCardApplication.class, args);
-
+    static {
         try {
-            Long[] atributo = recebeAtributos(args);
-            imprimeCardService = (ImprimeCardService) run.getBean("imprimeCardService");
-            imprimeCardService.imprimir(atributo[0], atributo[1]);
-        } catch (UsuarioNaoEncontradoException e) {
+            String myLibraryPath = System.getProperty("user.dir");//or another absolute or relative path
+            System.setProperty("java.library.path", myLibraryPath);
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (IndexOutOfBoundsException e) {
-            throw new RuntimeException("Usuario ou Impressora não informado.");
-        } finally {
-            run.close();
         }
+    }
+
+    public static void main(String[] args) {
+
+        new XPS_Java_SDK();
+
+        System.out.println("Carregou DLL");
+//        run = SpringApplication.run(SisPrintCardApplication.class, args);
+//
+//        try {
+//            Long[] atributo = recebeAtributos(args);
+//            imprimeCardService = (ImprimeCardService) run.getBean("imprimeCardService");
+//            imprimeCardService.imprimir(atributo[0], atributo[1]);
+//        } catch (UsuarioNaoEncontradoException e) {
+//            e.printStackTrace();
+//        } catch (IndexOutOfBoundsException e) {
+//            throw new RuntimeException("Usuario ou Impressora não informado.");
+//        } finally {
+//            run.close();
+//        }
     }
 
     private static Long[] recebeAtributos(String[] args) {
