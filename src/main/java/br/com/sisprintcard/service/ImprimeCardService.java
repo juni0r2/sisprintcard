@@ -1,6 +1,7 @@
 package br.com.sisprintcard.service;
 
 import java.util.Optional;
+import java.util.regex.Pattern;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -30,10 +31,21 @@ public class ImprimeCardService {
         try {
             Optional<EnImpressora> impressora = impressoraRepository.findById(idImpressora);
             Optional<EnSamBeneficiarioCartaoIdentif> usuario = getEnSamBeneficiarioCartaoIdentif(idUsuario);
-
-            System.out.println(impressora);
-            System.out.println(usuario);
-
+            
+            if (impressora.isPresent() && usuario.isPresent()) {
+            	
+            	System.out.println("\nDados da Impressora :: ");
+            	System.out.println(impressora.get());
+            	System.out.println("\nImprimir Dados do Beneficiário :: ");
+            	
+            	DadosParaImpressaoDto build = DadosParaImpressaoDto.builder()
+            	.beneficiarioCartaoIdentif(usuario.get().getKTrilhaCarenciaCartao())
+            	.impressora(impressora.get().getNome())
+            	.build();
+            	Imprimir(build);
+            }
+            	
+            
         } catch (UsuarioNaoEncontradoException w) {
             w.printStackTrace();
         }
@@ -49,7 +61,7 @@ public class ImprimeCardService {
     
     public void Imprimir(DadosParaImpressaoDto dadosParaImpressaoDto) {
     	
-    	String mPrinterName = dadosParaImpressaoDto.getImpressora().getNome();
+    	String mPrinterName = dadosParaImpressaoDto.getImpressora();
     	
 		final int S_OK = 0;
 		byte returnXML[] = new byte[XPS_Java_SDK.BUFFSIZE];
@@ -63,9 +75,8 @@ public class ImprimeCardService {
 //		resultado.setFicStatus(1);
 //		fila.update(resultado);
 		
-//		String dados[] = resultado.getFicDados().split(Pattern.quote(";"));  
+		String dados[] = dadosParaImpressaoDto.getBeneficiarioCartaoIdentif().split(Pattern.quote(";"));  
 		
-		String dados [] = {""};
 		
 		//Variáveis Auxiliáres para o Armazenamento dos Dados
 		String matricula = dados[0].trim().replace("'", "");
@@ -101,13 +112,13 @@ public class ImprimeCardService {
 			}		
 		}
 		System.out.println(nome);
-		System.out.println(String.valueOf(cont) + ", "+ String.valueOf(dados.length));
-		String versao = dados[21].trim().replace("'", "");
+//		System.out.println(String.valueOf(cont) + ", "+ String.valueOf(dados.length));
+		String versao = matricula.substring(matricula.length()-2, matricula.length());
 		String matricOrgao = "";
 		if(22 < dados.length )
 			matricOrgao = dados[22].trim().replace("'", "");
 		
-		System.out.println(versao + " " + matricOrgao);
+//		System.out.println(versao + " " + matricOrgao);
 		if (versao.length() > 2){
 			//Atualiza o status do registro atual para imprimindo
 //			resultado.setFicStatus(4);
@@ -176,15 +187,16 @@ public class ImprimeCardService {
 			//printerStatusXml.SetCommand(printerStatusXml.PRINTERACTION_CANCEL);
 
 			returnValue = printerStatusXml.GetErrorMessage();
-			System.out.format("Magstripe operation error. Printer return: %s\n Cancel Operation\n\n", returnValue);
+			System.out.format("\nMagstripe operation error. Printer return: %s\n Cancel Operation\n\n", returnValue);
+			System.out.println("Erro ao imprimir cartão.");
 
 			//XpsDriverInteropLib.INSTANCE.SendResponseToPrinter(mPrinterName, printerStatusXml.GetCommand(), printerStatusXml.GetPrintJobID(), printerStatusXml.GetErrorCode());
 		} else {
 
 					Integer modelo = 0;
 					JavaPrint javaPrint = new JavaPrint(mPrinterName, matricula, nome, tipoDependencia, dataVencimento, versao, dataNascimento, municipio, orgao, tipoPlano, carenciaL1, carenciaL2, carenciaL3, modelo, matricOrgao);
-					javaPrint.Print();
-
+//					javaPrint.Print();
+					System.out.println("\nImprimindo cartão ...");
 					//need to wait for data get spooler before calling EndJob
 					try {
 						Thread.sleep(10000);

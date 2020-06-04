@@ -117,4 +117,9 @@ public class EnSamBeneficiarioCartaoIdentif implements Serializable {
 
     @Column(name = "K_USUARIOGERACAO")
     private Integer kUsuarioGeracao;
+    
+    @Override
+    public String toString() {
+    	return "Nome do Beneficiário : " + this.nomeNoCartao;
+    }
 }

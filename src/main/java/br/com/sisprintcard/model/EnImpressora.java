@@ -35,5 +35,10 @@ public class EnImpressora implements Serializable {
 
     @Column(name = "IMP_ID_ANTIGO")
     private Long idAntigo;
+    
+    @Override
+    public String toString() {
+    	return "\nNome : "+ this.nome +"\nIP : " + this.ip + "\nLocalização : "+ this.localizacao;
+    }
 
 }

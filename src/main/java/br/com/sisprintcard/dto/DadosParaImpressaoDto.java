@@ -1,13 +1,13 @@
 package br.com.sisprintcard.dto;
 
-import br.com.sisprintcard.model.EnImpressora;
-import br.com.sisprintcard.model.EnSamBeneficiarioCartaoIdentif;
+import lombok.Builder;
 import lombok.Data;
 
 @Data
+@Builder
 public class DadosParaImpressaoDto {
 	
-	private EnImpressora impressora;
-	private EnSamBeneficiarioCartaoIdentif beneficiarioCartaoIdentif;
+	private String impressora;
+	private String beneficiarioCartaoIdentif;
 	
 }
