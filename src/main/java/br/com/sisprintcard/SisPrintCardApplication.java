@@ -29,7 +29,6 @@ public class SisPrintCardApplication {
 
         new XPS_Java_SDK();
 
-        System.out.println("Carregou DLL");
         run = SpringApplication.run(SisPrintCardApplication.class, args);
 
         try {
@@ -39,9 +38,11 @@ public class SisPrintCardApplication {
         } catch (UsuarioNaoEncontradoException e) {
             e.printStackTrace();
         } catch (IndexOutOfBoundsException e) {
+        	System.out.println("Erro ao imprimir cartão.");
             throw new RuntimeException("Usuario ou Impressora não informado.");
         } finally {
             run.close();
+
         }
         System.exit(0);
     }

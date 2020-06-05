@@ -113,12 +113,12 @@ public class ImprimeCardService {
 		}
 		System.out.println(nome);
 //		System.out.println(String.valueOf(cont) + ", "+ String.valueOf(dados.length));
-		String versao = matricula.substring(matricula.length()-2, matricula.length());
+		String versao = dados[21].trim().replace("'", "");
 		String matricOrgao = "";
 		if(22 < dados.length )
 			matricOrgao = dados[22].trim().replace("'", "");
 		
-//		System.out.println(versao + " " + matricOrgao);
+		System.out.println(versao + " " + matricOrgao);
 		if (versao.length() > 2){
 			//Atualiza o status do registro atual para imprimindo
 //			resultado.setFicStatus(4);
@@ -188,15 +188,15 @@ public class ImprimeCardService {
 
 			returnValue = printerStatusXml.GetErrorMessage();
 			System.out.format("\nMagstripe operation error. Printer return: %s\n Cancel Operation\n\n", returnValue);
-			System.out.println("Erro ao imprimir cartão.");
-
+			System.out.println("\nErro ao imprimir cartão");
 			//XpsDriverInteropLib.INSTANCE.SendResponseToPrinter(mPrinterName, printerStatusXml.GetCommand(), printerStatusXml.GetPrintJobID(), printerStatusXml.GetErrorCode());
 		} else {
 
 					Integer modelo = 0;
 					JavaPrint javaPrint = new JavaPrint(mPrinterName, matricula, nome, tipoDependencia, dataVencimento, versao, dataNascimento, municipio, orgao, tipoPlano, carenciaL1, carenciaL2, carenciaL3, modelo, matricOrgao);
 //					javaPrint.Print();
-					System.out.println("\nImprimindo cartão ...");
+					System.out.println("\n\nImprimindo Cartão ... ");
+
 					//need to wait for data get spooler before calling EndJob
 					try {
 						Thread.sleep(10000);
